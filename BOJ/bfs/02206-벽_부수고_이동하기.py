@@ -27,9 +27,10 @@ def bfs():
                 if arr[nx][ny] == 1 and wall == 0:
                     queue.append((nx, ny, 1))
                     visited[nx][ny][1] = visited[x][y][wall] + 1
-                print(nx, ny)
-                for row in visited:
-                    print(*row)
+
+                # print(nx, ny)
+                # for row in visited:
+                #     print(*row)
     return -1
 
 
