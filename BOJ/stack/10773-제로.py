@@ -1,5 +1,4 @@
 k = int(input())
-
 li = []
 
 for _ in range(k):
