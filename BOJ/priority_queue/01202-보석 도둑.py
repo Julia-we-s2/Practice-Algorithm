@@ -24,7 +24,6 @@ for bag in bags:
     while jewelrys and bag >= jewelrys[0][0]:
         heapq.heappush(temp, - jewelrys[0][1])
         heapq.heappop(jewelrys)
-    print(temp)
 
     if temp:
         res += - heapq.heappop(temp)
