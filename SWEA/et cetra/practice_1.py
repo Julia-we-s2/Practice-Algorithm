@@ -1,64 +1,42 @@
-t = int(input())
 
-for tc in range(t):
+def dfs(no, fishing, people, distance, visited):
+    global answer
+    isVisited = False
+    if people == 0:
+        if no != 2:
+            no += 1
+            dfs(no, p[no][0], p[no][1], distance, visited)
+        else:
+            answer = min(answer, distance)
+        return
+    for j in range(n):
+        if fishing + j <= n and visited[fishing + j] == 0:
+            visited[fishing + j] = 1
+            dfs(no, fishing, people - 1, distance + (j + 1), visited)
+            visited[fishing + j] = 0
+            isVisited = True
 
+        if fishing - j >= 0 and visited[fishing - j] == 0:
+            visited[fishing - j] = 1
+            dfs(no, fishing, people - 1, distance + (j + 1), visited)
+            visited[fishing - j] = 0
+            isVisited = True
+
+        if isVisited:
+           break
+
+
+for tc in range(int(input())):
     n = int(input())
-    cnt = 0
     info = [list(map(int, input().split())) for _ in range(3)]
-    li = []
+    answer = float('inf')
     order = [
         (info[0], info[1], info[2]), (info[0], info[2], info[1]),
         (info[1], info[0], info[2]), (info[1], info[2], info[0]),
         (info[2], info[0], info[1]), (info[2], info[1], info[0])
     ]
- 
     for p in order:
-        visited = [1] + [0 for _ in range(n)]
+        dfs(0, p[0][0], p[0][1], 0, [1] + [0 for _ in range(n)])
 
-        for i in p:
-            fishing = i[0]
-            people = i[1]
-
-            for j in range(0, n):
-                if people <= 0:
-                    break
-
-                if visited[fishing - j] == 0:
-                    people -= 1
-                    visited[fishing - j] = 1
-                    cnt += (j + 1)
-
-                if people > 0 and j != 0 and fishing + j <= n and visited[fishing + j] == 0:
-                        people -= 1
-                        visited[fishing + j] = 1
-                        cnt += (j + 1)
-
-        li.append(cnt)
-        cnt = 0
-
-        visited = [1] + [0 for _ in range(n)]
-
-        for i in p:
-            fishing = i[0]
-            people = i[1]
-
-            for j in range(0, n):
-                if people <= 0:
-                    break
-
-                if people > 0 and j != 0 and fishing + j <= n and visited[fishing + j] == 0:
-                    people -= 1
-                    visited[fishing + j] = 1
-                    cnt += (j + 1)
-
-                if people > 0 and visited[fishing - j] == 0:
-                    people -= 1
-                    visited[fishing - j] = 1
-                    cnt += (j + 1)
-
-        li.append(cnt)
-        cnt = 0
-
-    ans = min(li)
-    print(f'#{tc+1} {ans}')
+    print(f'#{tc+1} {answer}')
 
