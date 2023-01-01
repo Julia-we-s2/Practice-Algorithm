@@ -7,8 +7,8 @@
 # 낚시왕이 잡은 상어 크기의 합
 
 
-def fish(j):
-    for i in range(r):
+def fish(j): # 열은 고
+    for i in range(row):
         if arr[i][j]:
             shark = arr[i][j][2]
             arr[i][j] = 0
@@ -18,11 +18,12 @@ def fish(j):
 
 def move():
     global arr
-    new_arr = [[0 for _ in range(c)] for _ in range(r)]
-    for i in range(r):
-        for j in range(c):
+    new_arr = [[0 for _ in range(col)] for _ in range(row)]
+    for i in range(row):
+        for j in range(col):
             if arr[i][j]:
                 ni, nj, nd = get_next_location(i, j, arr[i][j][0], arr[i][j][1])
+
                 if new_arr[ni][nj]:
                     new_arr[ni][nj] = max(new_arr[ni][nj], (arr[i][j][0], nd, arr[i][j][2]), key=lambda x: x[2])
                 else:
@@ -33,32 +34,32 @@ def move():
 
 def get_next_location(i, j, speed, dir):
     if dir == 1 or dir == 2:
-        cycle = r * 2 - 2
+        cycle = row * 2 - 2
         if dir == 1:
-            speed += 2 * (r - 1) - i
+            speed += 2 * (row - 1) - i
         else:
             speed += i
 
         speed %= cycle
 
-        if speed >= r:
-            return 2 * r - 2 - speed, j, 1
+        if speed >= row:
+            return 2 * row - 2 - speed, j, 1
         return speed, j, 2
 
     else:
-        cycle = c * 2 - 2
+        cycle = col * 2 - 2
         if dir == 4:
-            speed += 2 * (c - 1) - j
+            speed += 2 * (col - 1) - j
         else:
             speed += j
         speed %= cycle
-        if speed >= c:
-            return i, 2 * c - 2 - speed, 4
+        if speed >= col:
+            return i, 2 * col - 2 - speed, 4
         return i, speed, 3
 
 
-r, c, m = map(int, input().split())
-arr = [[0 for _ in range(c)] for _ in range(r)]
+row, col, m = map(int, input().split())
+arr = [[0 for _ in range(col)] for _ in range(row)]
 
 for _ in range(m):
     r, c, speed, dir, size = map(int, input().split())
@@ -68,7 +69,7 @@ for _ in range(m):
 
 ans = 0
 
-for i in range(c):
+for i in range(col):
     ans += fish(i)
     move()
 
